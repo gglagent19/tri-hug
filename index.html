@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TRI HUG — Be the Party Hero | The Original Bottle Cap Launcher</title>
+<meta name="description" content="Tri Hug's Original Bottle Cap Launcher. Be the hero of every party — pop the cap, launch it 15 metres, steal the show. Only ₹1,366!" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Titan+One&family=Baloo+2:wght@400;500;600;700;800&family=Kalam:wght@700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --paper:#fff8ec;
+  --paper-2:#ffefd2;
+  --ink:#2b1b4d;
+  --coral:#ff5a5f;
+  --sun:#ffc233;
+  --teal:#12b5a2;
+  --grape:#7c4dff;
+  --pink:#ff7ac1;
+  --radius:16px;
+  --border:3px solid var(--ink);
+  --shadow:6px 6px 0 var(--ink);
+  --font-display:'Titan One',cursive;
+  --font-body:'Baloo 2',sans-serif;
+  --font-hand:'Kalam',cursive;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-body);
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.55;
+  overflow-x:hidden;
+  background-image:
+    radial-gradient(circle, rgba(255,194,51,.35) 2px, transparent 2.5px),
+    radial-gradient(circle, rgba(255,122,193,.25) 2px, transparent 2.5px);
+  background-size:38px 38px, 38px 38px;
+  background-position:0 0, 19px 19px;
+}
+::selection{background:var(--coral);color:#fff}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font-family:inherit;cursor:pointer}
+h1,h2,h3{font-family:var(--font-display);line-height:1.08;letter-spacing:.01em;font-weight:400}
+
+/* ---------- confetti ---------- */
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:5;overflow:hidden}
+.confetti i{
+  position:absolute;top:-4vh;width:10px;height:16px;border-radius:2px;opacity:.85;
+  left:var(--l);background:var(--c);
+  animation:fall var(--d) linear infinite;animation-delay:var(--dl);
+}
+@keyframes fall{
+  0%{transform:translateY(-5vh) rotate(0) rotateY(0)}
+  100%{transform:translateY(108vh) rotate(720deg) rotateY(540deg)}
+}
+
+/* ---------- bunting flags ---------- */
+.bunting{display:flex;justify-content:center;gap:2px;background:var(--ink);padding:0 0 2px;position:relative;z-index:60}
+.bunting i{
+  width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;
+  border-top:22px solid var(--f);
+  animation:sway 3s ease-in-out infinite;animation-delay:calc(var(--i) * .25s);transform-origin:top center;
+}
+@keyframes sway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+
+/* ---------- marquee ---------- */
+.marquee{
+  background:var(--coral);color:#fff;
+  overflow:hidden;white-space:nowrap;
+  padding:.5rem 0;font-weight:800;font-size:.9rem;letter-spacing:.1em;text-transform:uppercase;
+  position:relative;z-index:60;
+  border-bottom:var(--border);
+}
+.marquee__track{display:inline-block;animation:scroll 24s linear infinite}
+.marquee__track span{margin:0 1.4rem}
+.marquee__track .dot{color:var(--sun)}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ---------- nav ---------- */
+nav{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.9rem clamp(1rem,4vw,3rem);
+  background:var(--paper);
+  border-bottom:var(--border);
+}
+.logo{font-family:var(--font-display);font-size:1.4rem;text-decoration:none;display:flex;align-items:center;gap:.55rem;color:var(--ink)}
+.logo svg{width:38px;height:38px}
+.nav-links{display:flex;gap:1.75rem;list-style:none;font-weight:700;font-size:.95rem}
+.nav-links a{text-decoration:none;position:relative}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-4px;width:0;height:3px;background:var(--coral);transition:width .25s}
+.nav-links a:hover::after{width:100%}
+.cart-btn{
+  display:flex;align-items:center;gap:.5rem;
+  background:var(--sun);color:var(--ink);border:var(--border);
+  padding:.55rem 1.2rem;border-radius:999px;
+  font-weight:800;font-size:.95rem;
+  box-shadow:3px 3px 0 var(--ink);transition:transform .15s,box-shadow .15s;
+}
+.cart-btn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+.cart-btn:active{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--ink)}
+#cartCount{background:var(--ink);color:#fff;border-radius:50%;min-width:1.4rem;height:1.4rem;display:grid;place-items:center;font-size:.75rem}
+
+/* ---------- hero ---------- */
+.hero{
+  display:grid;grid-template-columns:1fr 1.05fr;gap:2rem;align-items:center;
+  padding:clamp(2rem,5vw,4.5rem) clamp(1rem,4vw,3rem) clamp(3rem,6vw,5rem);
+  position:relative;min-height:72vh;
+}
+.hero-kicker{
+  display:inline-block;font-family:var(--font-hand);font-size:1.35rem;color:var(--teal);
+  transform:rotate(-2deg);margin-bottom:.6rem;
+}
+.hero h1{font-size:clamp(2.5rem,6.5vw,5rem);color:var(--ink)}
+.hero h1 .c1{color:var(--coral);text-shadow:3px 3px 0 var(--ink)}
+.hero h1 .c2{color:var(--sun);text-shadow:3px 3px 0 var(--ink)}
+.hero p.sub{font-size:clamp(1rem,1.6vw,1.22rem);max-width:34rem;margin:1.2rem 0 2rem;font-weight:600}
+.hero p.sub .hi{font-family:var(--font-hand);color:var(--coral)}
+.hero-cta{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.btn-primary{
+  background:var(--coral);color:#fff;border:var(--border);
+  font-family:var(--font-display);font-size:1.1rem;
+  padding:1rem 2.2rem;border-radius:var(--radius);
+  box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s;text-decoration:none;display:inline-block;
+}
+.btn-primary:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--teal)}
+.btn-primary:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--teal)}
+.price-tag{
+  font-family:var(--font-display);font-size:1.3rem;color:var(--ink);
+  background:var(--sun);border:var(--border);border-radius:999px;padding:.55rem 1.4rem;
+  transform:rotate(-3deg);box-shadow:3px 3px 0 var(--ink);
+}
+.hero-scribble{position:absolute;bottom:.6rem;left:clamp(1rem,4vw,3rem);font-family:var(--font-hand);font-size:1.3rem;color:var(--grape);transform:rotate(-2deg)}
+
+/* hero party scene */
+.hero-scene{position:relative;display:grid;place-items:center;min-height:440px}
+.sunburst{
+  position:absolute;width:min(460px,92%);aspect-ratio:1;border-radius:50%;
+  background:repeating-conic-gradient(var(--sun) 0deg 14deg, var(--paper-2) 14deg 28deg);
+  border:var(--border);
+  animation:spin 45s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-photo{
+  position:relative;z-index:3;height:min(430px,60vw);width:auto;
+  transform:rotate(-3deg);
+  filter:drop-shadow(8px 10px 0 rgba(43,27,77,.3));
+}
+.party-person{position:absolute;z-index:4;filter:drop-shadow(4px 5px 0 rgba(43,27,77,.35))}
+.person-cheer{left:-4%;bottom:2%;width:clamp(120px,15vw,175px);animation:bounce 2.4s ease-in-out infinite}
+.person-dance{right:-3%;bottom:0;width:clamp(130px,16vw,190px);animation:bounce 2.8s ease-in-out infinite .5s}
+.person-pop{right:8%;top:-4%;width:clamp(95px,11vw,130px);animation:bounce 2.2s ease-in-out infinite 1s}
+@keyframes bounce{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(2deg)}}
+.cap{
+  position:absolute;width:40px;height:40px;left:52%;top:26%;z-index:5;
+  animation:capfly 2.6s cubic-bezier(.2,.8,.3,1) infinite;
+}
+@keyframes capfly{
+  0%{transform:translate(0,0) rotate(0) scale(1);opacity:0}
+  10%{opacity:1}
+  60%{transform:translate(120px,-150px) rotate(540deg) scale(.9);opacity:1}
+  100%{transform:translate(190px,-110px) rotate(900deg) scale(.8);opacity:0}
+}
+.sticker{
+  position:absolute;font-family:var(--font-hand);font-size:1.3rem;z-index:6;
+  background:#fff;border:var(--border);padding:.25rem 1rem;border-radius:999px;
+  box-shadow:3px 3px 0 var(--ink);
+}
+.sticker--1{top:4%;left:-2%;transform:rotate(-8deg);background:var(--sun)}
+.sticker--2{bottom:-3%;right:22%;transform:rotate(4deg);background:var(--pink);color:#fff}
+
+/* ---------- section shells ---------- */
+section{padding:clamp(3rem,7vw,6rem) clamp(1rem,4vw,3rem);position:relative;z-index:6}
+.section-label{
+  display:inline-block;background:var(--teal);color:#fff;border:var(--border);
+  font-weight:800;font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:.35rem 1.1rem;border-radius:999px;transform:rotate(-2deg);margin-bottom:1.2rem;
+  box-shadow:3px 3px 0 var(--ink);
+}
+.section-title{font-size:clamp(1.9rem,4.2vw,3.1rem);margin-bottom:2.5rem;max-width:24ch}
+
+/* ---------- moments ---------- */
+.moments{background:var(--paper-2);border-top:var(--border);border-bottom:var(--border)}
+.moments-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem}
+.moment{
+  background:#fff;border:var(--border);border-radius:var(--radius);
+  padding:1.5rem;text-align:center;transition:transform .2s;box-shadow:var(--shadow);
+}
+.moment:hover{transform:translateY(-6px) rotate(-1deg)}
+.moment svg{width:84px;height:84px;margin:0 auto .7rem}
+.moment h3{font-size:1.1rem;color:var(--coral);margin-bottom:.4rem}
+.moment p{font-size:.9rem;opacity:.85;font-weight:500}
+
+/* ---------- product ---------- */
+.product{background:var(--grape);color:#fff;border-top:var(--border);border-bottom:var(--border);position:relative;overflow:hidden}
+.product .section-label{background:var(--sun);color:var(--ink)}
+.product-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4rem);align-items:start;position:relative;z-index:2}
+.product-stage{
+  background:var(--paper);border:var(--border);border-radius:var(--radius);
+  padding:2rem;display:grid;place-items:center;position:relative;min-height:440px;
+  box-shadow:8px 8px 0 var(--ink);
+}
+.product-stage::before,.product-stage::after{content:'✦';position:absolute;font-size:1.8rem;color:var(--coral)}
+.product-stage::before{top:.6rem;left:.9rem}
+.product-stage::after{bottom:.6rem;right:.9rem}
+.product-stage img{
+  max-height:400px;width:auto;max-width:88%;
+  filter:drop-shadow(6px 8px 0 rgba(43,27,77,.25));
+  transition:transform .4s cubic-bezier(.2,1.4,.4,1);
+}
+.product-stage:hover img{transform:rotate(-4deg) scale(1.04)}
+.badge-original{
+  position:absolute;top:-1.4rem;right:-1rem;background:var(--coral);color:#fff;
+  font-family:var(--font-display);font-size:.8rem;
+  width:104px;height:104px;border-radius:50%;border:var(--border);
+  display:grid;place-items:center;text-align:center;line-height:1.2;
+  transform:rotate(12deg);box-shadow:4px 4px 0 rgba(43,27,77,.4);
+  animation:wobble 4s ease-in-out infinite;z-index:5;
+}
+@keyframes wobble{0%,100%{transform:rotate(12deg)}50%{transform:rotate(4deg)}}
+.product-info h2{font-size:clamp(1.9rem,3.4vw,2.5rem);margin-bottom:.6rem;color:#fff}
+.rating{color:var(--sun);font-weight:800;margin-bottom:1.2rem;letter-spacing:.05em}
+.product-info .desc{opacity:.94;margin-bottom:1.8rem;max-width:48ch;font-weight:500}
+.product-info .desc .hi{font-family:var(--font-hand);color:var(--sun)}
+.price-row{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.8rem;flex-wrap:wrap}
+.price{font-family:var(--font-display);font-size:2.4rem;color:var(--sun);text-shadow:3px 3px 0 var(--ink)}
+.price-note{font-size:.88rem;opacity:.85}
+.opt-label{font-weight:800;text-transform:uppercase;font-size:.8rem;letter-spacing:.1em;margin-bottom:.6rem;display:block}
+.finishes{display:flex;gap:.8rem;margin-bottom:1.6rem;flex-wrap:wrap}
+.finish{
+  border:2.5px solid #fff;background:transparent;color:#fff;
+  padding:.55rem 1.1rem;border-radius:999px;font-weight:700;font-size:.9rem;
+  display:flex;align-items:center;gap:.5rem;transition:all .15s;
+}
+.finish .swatch{width:16px;height:16px;border-radius:50%;border:2px solid #fff}
+.finish[aria-pressed="true"]{background:var(--sun);color:var(--ink);border-color:var(--ink)}
+.finish[aria-pressed="true"] .swatch{border-color:var(--ink)}
+.qty-row{display:flex;align-items:center;gap:1rem;margin-bottom:1.8rem}
+.qty{display:flex;align-items:center;border:2.5px solid #fff;border-radius:999px;overflow:hidden}
+.qty button{background:transparent;color:#fff;border:none;width:2.6rem;height:2.6rem;font-size:1.3rem;font-weight:800}
+.qty button:hover{background:var(--coral)}
+.qty span{min-width:2.4rem;text-align:center;font-weight:800}
+.add-btn{
+  width:100%;max-width:22rem;
+  background:var(--sun);color:var(--ink);border:var(--border);
+  font-family:var(--font-display);font-size:1.1rem;
+  padding:1.05rem;border-radius:var(--radius);
+  box-shadow:5px 5px 0 var(--ink);transition:transform .15s,box-shadow .15s;
+}
+.add-btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+.add-btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+.trust{display:flex;gap:1.4rem;margin-top:1.4rem;font-size:.85rem;opacity:.92;flex-wrap:wrap;font-weight:600}
+
+/* ---------- how it works ---------- */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem}
+.step{
+  background:#fff;border:var(--border);border-radius:var(--radius);padding:1.8rem;
+  box-shadow:var(--shadow);position:relative;transition:transform .2s;overflow:hidden;
+}
+.step::after{content:'';position:absolute;top:0;left:0;right:0;height:8px}
+.step:nth-child(1)::after{background:var(--coral)}
+.step:nth-child(2)::after{background:var(--sun)}
+.step:nth-child(3)::after{background:var(--teal)}
+.step:hover{transform:translateY(-6px) rotate(-1deg)}
+.step .num{font-family:var(--font-display);font-size:2.5rem;color:var(--coral);text-shadow:2px 2px 0 var(--sun)}
+.step h3{font-size:1.2rem;margin:.6rem 0 .5rem}
+.step p{font-size:.95rem;opacity:.85;font-weight:500}
+.step .hi{font-family:var(--font-hand);color:var(--teal)}
+
+/* ---------- specs strip ---------- */
+.specs{background:var(--coral);border-top:var(--border);border-bottom:var(--border);padding:2.2rem clamp(1rem,4vw,3rem);position:relative;z-index:6}
+.specs ul{display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;list-style:none}
+.specs li{color:#fff;text-align:center;flex:1;min-width:140px}
+.specs .val{font-family:var(--font-display);font-size:1.8rem;display:block;text-shadow:3px 3px 0 var(--ink)}
+.specs .key{font-size:.8rem;text-transform:uppercase;letter-spacing:.12em;font-weight:800}
+
+/* ---------- reviews ---------- */
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem}
+.review{
+  background:#fff;border:var(--border);border-radius:var(--radius);padding:1.6rem;
+  box-shadow:var(--shadow);position:relative;
+}
+.review::before{content:'❝';position:absolute;top:.4rem;right:1rem;font-size:2.4rem;color:var(--sun)}
+.review:nth-child(2){transform:rotate(1.2deg)}
+.review:nth-child(3){transform:rotate(-1.2deg)}
+.review .stars{color:var(--coral);letter-spacing:.12em;margin-bottom:.7rem}
+.review p{font-size:.98rem;margin-bottom:1rem;font-weight:500}
+.review .who{font-family:var(--font-hand);font-size:1.3rem;color:var(--grape)}
+
+/* ---------- faq ---------- */
+.faq{max-width:760px;margin:0 auto}
+details{
+  background:#fff;border:var(--border);border-radius:var(--radius);
+  margin-bottom:1rem;box-shadow:4px 4px 0 var(--ink);overflow:hidden;
+}
+summary{
+  cursor:pointer;font-weight:800;padding:1.1rem 1.4rem;list-style:none;
+  display:flex;justify-content:space-between;align-items:center;font-size:1rem;
+}
+summary::after{content:'+';font-family:var(--font-display);font-size:1.4rem;color:var(--coral)}
+details[open] summary::after{content:'–'}
+details .a{padding:0 1.4rem 1.2rem;opacity:.85;font-weight:500}
+
+/* ---------- dancing crowd strip ---------- */
+.crowd-strip{
+  background:var(--sun);border-top:var(--border);border-bottom:var(--border);
+  padding:.8rem 0 0;overflow:hidden;text-align:center;
+}
+.crowd-strip svg{width:min(1100px,140%);height:74px;margin:0 auto;display:inline-block}
+.crowd-strip .dancer{animation:groove 1.6s ease-in-out infinite;transform-origin:center bottom}
+.crowd-strip .dancer:nth-child(2n){animation-delay:.4s}
+.crowd-strip .dancer:nth-child(3n){animation-delay:.8s}
+@keyframes groove{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-6px) rotate(3deg)}}
+
+/* ---------- footer ---------- */
+footer{background:var(--ink);color:var(--paper);padding:0 0 2rem;position:relative;z-index:6}
+.foot-inner{padding:3rem clamp(1rem,4vw,3rem) 0}
+.foot-grid{display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.foot-brand{font-family:var(--font-display);font-size:1.6rem}
+.foot-brand span{color:var(--sun)}
+footer ul{list-style:none;font-size:.95rem}
+footer li{margin-bottom:.5rem;opacity:.8;font-weight:500}
+footer li a{text-decoration:none}
+footer li a:hover{color:var(--sun);opacity:1}
+.foot-note{font-size:.82rem;opacity:.6;text-align:center;border-top:1px solid rgba(255,248,236,.2);padding:1.5rem 1rem 0;margin:0 clamp(1rem,4vw,3rem)}
+.foot-note .hi{font-family:var(--font-hand);font-size:1rem;color:var(--sun);opacity:1}
+
+/* ---------- cart drawer ---------- */
+.cart-overlay{
+  position:fixed;inset:0;background:rgba(43,27,77,.5);z-index:90;
+  opacity:0;pointer-events:none;transition:opacity .25s;
+}
+.cart-overlay.open{opacity:1;pointer-events:auto}
+.cart-drawer{
+  position:fixed;top:0;right:0;height:100dvh;width:min(420px,100%);z-index:100;
+  background:var(--paper);border-left:var(--border);
+  transform:translateX(105%);transition:transform .3s cubic-bezier(.3,1,.4,1);
+  display:flex;flex-direction:column;
+}
+.cart-drawer.open{transform:translateX(0)}
+.cart-head{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 1.4rem;border-bottom:var(--border);background:var(--coral);color:#fff}
+.cart-head h3{font-size:1.3rem}
+.cart-close{background:#fff;border:var(--border);border-radius:50%;width:2.4rem;height:2.4rem;font-size:1.1rem;font-weight:800;color:var(--ink)}
+.cart-items{flex:1;overflow-y:auto;padding:1.2rem 1.4rem}
+.cart-empty{text-align:center;opacity:.65;margin-top:3rem;font-family:var(--font-hand);font-size:1.5rem;color:var(--grape)}
+.cart-item{
+  display:flex;gap:1rem;background:#fff;border:var(--border);border-radius:12px;
+  padding:.9rem;margin-bottom:1rem;box-shadow:3px 3px 0 var(--ink);
+}
+.cart-item .thumb{width:54px;height:54px;flex-shrink:0;border-radius:8px;border:2px solid var(--ink);overflow:hidden;background:var(--paper-2)}
+.cart-item .thumb img{width:100%;height:100%;object-fit:contain;padding:3px}
+.ci-info{flex:1;min-width:0}
+.ci-info .name{font-weight:800;font-size:.92rem}
+.ci-info .meta{font-size:.8rem;opacity:.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ci-controls{display:flex;align-items:center;gap:.5rem;margin-top:.4rem}
+.ci-controls button{border:2px solid var(--ink);background:#fff;border-radius:6px;width:1.5rem;height:1.5rem;line-height:1;font-weight:800}
+.ci-controls button:hover{background:var(--sun)}
+.ci-remove{margin-left:auto;background:none!important;border:none!important;color:var(--coral);font-weight:800;font-size:.8rem;text-transform:uppercase}
+.cart-foot{border-top:var(--border);padding:1.2rem 1.4rem;background:#fff}
+.cart-total{display:flex;justify-content:space-between;font-family:var(--font-display);font-size:1.25rem;margin-bottom:1rem}
+.checkout-btn{
+  width:100%;background:var(--teal);color:#fff;border:var(--border);
+  font-family:var(--font-display);font-size:1.05rem;
+  padding:1rem;border-radius:var(--radius);box-shadow:4px 4px 0 var(--ink);
+  transition:transform .15s,box-shadow .15s;
+}
+.checkout-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+
+/* ---------- toast ---------- */
+.toast{
+  position:fixed;bottom:1.5rem;left:50%;transform:translate(-50%,150%);
+  background:var(--ink);color:var(--paper);border:2.5px solid var(--sun);
+  padding:.9rem 1.6rem;border-radius:999px;font-weight:800;z-index:120;
+  transition:transform .3s cubic-bezier(.3,1.4,.4,1);box-shadow:4px 4px 0 rgba(43,27,77,.3);
+}
+.toast.show{transform:translate(-50%,0)}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .6s,transform .6s}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .hero-scene{min-height:380px;margin-top:1rem}
+  .product-grid{grid-template-columns:1fr}
+  .steps,.reviews-grid{grid-template-columns:1fr}
+  .moments-grid{grid-template-columns:repeat(2,1fr)}
+  .nav-links{display:none}
+  .confetti i:nth-child(n+14){display:none}
+  .person-pop{display:none}
+  .cap{animation-name:capfly-sm}
+  @keyframes capfly-sm{
+    0%{transform:translate(0,0) rotate(0);opacity:0}
+    10%{opacity:1}
+    60%{transform:translate(70px,-100px) rotate(540deg);opacity:1}
+    100%{transform:translate(110px,-70px) rotate(900deg);opacity:0}
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  .confetti,.cap{display:none}
+  .sunburst,.marquee__track,.bunting i,.party-person,.crowd-strip .dancer{animation:none}
+}
+</style>
+</head>
+<body>
+
+<!-- confetti rain -->
+<div class="confetti" aria-hidden="true">
+  <i style="--l:3%;--c:#ff5a5f;--d:6s;--dl:0s"></i>
+  <i style="--l:9%;--c:#ffc233;--d:8s;--dl:1.2s"></i>
+  <i style="--l:15%;--c:#12b5a2;--d:7s;--dl:2.4s"></i>
+  <i style="--l:21%;--c:#7c4dff;--d:9s;--dl:.6s"></i>
+  <i style="--l:27%;--c:#ff7ac1;--d:6.5s;--dl:3s"></i>
+  <i style="--l:33%;--c:#ff5a5f;--d:8.5s;--dl:1.8s"></i>
+  <i style="--l:39%;--c:#ffc233;--d:7.2s;--dl:4.1s"></i>
+  <i style="--l:45%;--c:#12b5a2;--d:6.8s;--dl:.9s"></i>
+  <i style="--l:51%;--c:#7c4dff;--d:9.2s;--dl:2.7s"></i>
+  <i style="--l:57%;--c:#ff7ac1;--d:7.6s;--dl:5s"></i>
+  <i style="--l:63%;--c:#ff5a5f;--d:6.4s;--dl:1.5s"></i>
+  <i style="--l:69%;--c:#ffc233;--d:8.8s;--dl:3.6s"></i>
+  <i style="--l:75%;--c:#12b5a2;--d:7.4s;--dl:.3s"></i>
+  <i style="--l:81%;--c:#7c4dff;--d:6.6s;--dl:4.5s"></i>
+  <i style="--l:87%;--c:#ff7ac1;--d:9.4s;--dl:2.1s"></i>
+  <i style="--l:93%;--c:#ff5a5f;--d:7.8s;--dl:5.4s"></i>
+</div>
+
+<!-- bunting flags -->
+<div class="bunting" aria-hidden="true">
+  <i style="--f:#ff5a5f;--i:0"></i><i style="--f:#ffc233;--i:1"></i><i style="--f:#12b5a2;--i:2"></i><i style="--f:#7c4dff;--i:3"></i><i style="--f:#ff7ac1;--i:4"></i><i style="--f:#ff5a5f;--i:5"></i><i style="--f:#ffc233;--i:6"></i><i style="--f:#12b5a2;--i:7"></i><i style="--f:#7c4dff;--i:8"></i><i style="--f:#ff7ac1;--i:9"></i><i style="--f:#ff5a5f;--i:10"></i><i style="--f:#ffc233;--i:11"></i><i style="--f:#12b5a2;--i:12"></i><i style="--f:#7c4dff;--i:13"></i><i style="--f:#ff7ac1;--i:14"></i><i style="--f:#ff5a5f;--i:15"></i><i style="--f:#ffc233;--i:16"></i><i style="--f:#12b5a2;--i:17"></i><i style="--f:#7c4dff;--i:18"></i><i style="--f:#ff7ac1;--i:19"></i>
+</div>
+
+<!-- marquee -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <span>🎉 BE THE PARTY HERO</span><span class="dot">✦</span><span>LAUNCHES CAPS 15 METRES</span><span class="dot">✦</span><span>SOLID METAL — ZERO BATTERIES</span><span class="dot">✦</span><span>THE WHOLE PARTY WILL BE WATCHING 👀</span><span class="dot">✦</span>
+    <span>🎉 BE THE PARTY HERO</span><span class="dot">✦</span><span>LAUNCHES CAPS 15 METRES</span><span class="dot">✦</span><span>SOLID METAL — ZERO BATTERIES</span><span class="dot">✦</span><span>THE WHOLE PARTY WILL BE WATCHING 👀</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- nav -->
+<nav>
+  <a class="logo" href="#top" aria-label="Tri Hug home">
+    <svg viewBox="0 0 40 40" fill="none">
+      <circle cx="20" cy="20" r="18" fill="#ffc233" stroke="#2b1b4d" stroke-width="3"/>
+      <circle cx="20" cy="20" r="12" fill="#ff5a5f" stroke="#2b1b4d" stroke-width="2.5"/>
+      <path d="M20 11 L28 25 L12 25 Z" fill="#fff8ec" stroke="#2b1b4d" stroke-width="2.5" stroke-linejoin="round"/>
+    </svg>
+    TRI&nbsp;HUG
+  </a>
+  <ul class="nav-links">
+    <li><a href="#product">The Launcher</a></li>
+    <li><a href="#moments">Party Moves</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <button class="cart-btn" id="openCart" aria-label="Open cart">
+    Cart <span id="cartCount">0</span>
+  </button>
+</nav>
+
+<!-- hero -->
+<header class="hero" id="top">
+  <div>
+    <div class="hero-kicker">✦ Every party's one true entertainer ✦</div>
+    <h1><span class="c1">BE THE</span><br /><span class="c2">PARTY</span> HERO.</h1>
+    <p class="sub">Everyone's dancing, music's loud — and then <strong>YOU</strong> pop a bottle and the cap flies 15 metres across the room. <span class="hi">The whole party stops to watch. What a scene!</span> That's The Original by Tri Hug — solid metal, built forever, a showstopper entrance every single time.</p>
+    <div class="hero-cta">
+      <a href="#product" class="btn-primary">🎉 Become the Hero — ₹1,366</a>
+      <div class="price-tag">★ 4.9 / 5</div>
+    </div>
+  </div>
+  <div class="hero-scene">
+    <div class="sunburst"></div>
+    <img class="hero-photo" src="assets/product-nobg.png" alt="The Original bottle cap launcher mounted on a beer bottle" />
+
+    <!-- cheering person (left) -->
+    <svg class="party-person person-cheer" viewBox="0 0 200 260" fill="none" aria-hidden="true">
+      <path d="M60 82 Q30 60 38 34" stroke="#2b1b4d" stroke-width="13" stroke-linecap="round"/>
+      <circle cx="36" cy="28" r="11" fill="#ffb98a" stroke="#2b1b4d" stroke-width="4"/>
+      <path d="M140 82 Q170 58 164 32" stroke="#2b1b4d" stroke-width="13" stroke-linecap="round"/>
+      <circle cx="166" cy="26" r="11" fill="#ffb98a" stroke="#2b1b4d" stroke-width="4"/>
+      <circle cx="100" cy="52" r="27" fill="#ffb98a" stroke="#2b1b4d" stroke-width="4"/>
+      <path d="M73 46 Q80 18 108 22 Q128 24 127 44 Q112 36 100 38 Q84 40 73 46 Z" fill="#2b1b4d"/>
+      <path d="M88 60 Q100 70 112 60" stroke="#2b1b4d" stroke-width="4" stroke-linecap="round" fill="none"/>
+      <circle cx="89" cy="50" r="3.5" fill="#2b1b4d"/><circle cx="111" cy="50" r="3.5" fill="#2b1b4d"/>
+      <path d="M68 100 Q100 80 132 100 L128 170 Q100 182 72 170 Z" fill="#12b5a2" stroke="#2b1b4d" stroke-width="4"/>
+      <path d="M78 170 L74 226" stroke="#2b1b4d" stroke-width="13" stroke-linecap="round"/>
+      <path d="M122 170 L126 226" stroke="#2b1b4d" stroke-width="13" stroke-linecap="round"/>
+      <ellipse cx="70" cy="238" rx="16" ry="9" fill="#ff5a5f" stroke="#2b1b4d" stroke-width="4"/>
+      <ellipse cx="130" cy="238" rx="16" ry="9" fill="#ff5a5f" stroke="#2b1b4d" stroke-width="4"/>
+    </svg>
+
+    <!-- dancing person with drink (right) -->
+    <svg class="party-person person-dance" viewBox="0 0 210 270" fill="none" aria-hidden="true">
+      <path d="M142 92 Q176 74 172 44" stroke="#2b1b4d" stroke-width="13" stroke-linecap="round"/>
+      <rect x="158" y="12" width="20" height="34" rx="6" fill="#ffc233" stroke="#2b1b4d" stroke-width="4"/>
+      <path d="M64 100 Q40 116 52 140" stroke="#2b1b4d" stroke-width="13" stroke-linecap="round"/>
+      <circle cx="54" cy="146" r="11" fill="#c68958" stroke="#2b1b4d" stroke-width="4"/>
+      <circle cx="103" cy="60" r="27" fill="#c68958" stroke="#2b1b4d" stroke-width="4"/>
+      <path d="M76 56 Q76 26 104 26 Q132 26 130 56 Q127 34 103 36 Q82 38 76 56 Z" fill="#2b1b4d"/>
+      <path d="M92 68 Q103 78 114 68" stroke="#2b1b4d" stroke-width="4" stroke-linecap="round" fill="none"/>
+      <circle cx="92" cy="58" r="3.5" fill="#2b1b4d"/><circle cx="114" cy="58" r="3.5" fill="#2b1b4d"/>
+      <path d="M72 108 Q104 88 136 108 L130 180 Q102 192 76 180 Z" fill="#ff7ac1" stroke="#2b1b4d" stroke-width="4"/>
+      <path d="M84 180 L70 234" stroke="#2b1b4d" stroke-width="13" stroke-linecap="round"/>
+      <path d="M124 180 L142 230" stroke="#2b1b4d" stroke-width="13" stroke-linecap="round"/>
+      <ellipse cx="64" cy="246" rx="16" ry="9" fill="#7c4dff" stroke="#2b1b4d" stroke-width="4"/>
+      <ellipse cx="150" cy="242" rx="16" ry="9" fill="#7c4dff" stroke="#2b1b4d" stroke-width="4"/>
+    </svg>
+
+    <!-- confetti-popper person (top-right) -->
+    <svg class="party-person person-pop" viewBox="0 0 160 200" fill="none" aria-hidden="true">
+      <path d="M96 70 L128 40" stroke="#2b1b4d" stroke-width="11" stroke-linecap="round"/>
+      <path d="M124 44 L146 20 L134 46 Z" fill="#ff5a5f" stroke="#2b1b4d" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="152" cy="12" r="4" fill="#ffc233"/><circle cx="140" cy="4" r="4" fill="#12b5a2"/><circle cx="155" cy="28" r="4" fill="#ff7ac1"/>
+      <path d="M52 74 Q34 86 40 104" stroke="#2b1b4d" stroke-width="11" stroke-linecap="round"/>
+      <circle cx="42" cy="110" r="9" fill="#ffb98a" stroke="#2b1b4d" stroke-width="4"/>
+      <circle cx="76" cy="46" r="22" fill="#ffb98a" stroke="#2b1b4d" stroke-width="4"/>
+      <path d="M55 40 Q58 18 80 20 Q98 22 97 40 Q86 30 76 32 Q64 34 55 40 Z" fill="#5b3a1e"/>
+      <path d="M67 52 Q76 60 85 52" stroke="#2b1b4d" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+      <circle cx="68" cy="44" r="3" fill="#2b1b4d"/><circle cx="86" cy="44" r="3" fill="#2b1b4d"/>
+      <path d="M56 82 Q78 68 100 82 L96 138 Q76 148 58 138 Z" fill="#7c4dff" stroke="#2b1b4d" stroke-width="4"/>
+      <path d="M64 138 L60 180" stroke="#2b1b4d" stroke-width="11" stroke-linecap="round"/>
+      <path d="M90 138 L96 180" stroke="#2b1b4d" stroke-width="11" stroke-linecap="round"/>
+      <ellipse cx="58" cy="190" rx="13" ry="8" fill="#ffc233" stroke="#2b1b4d" stroke-width="4"/>
+      <ellipse cx="100" cy="190" rx="13" ry="8" fill="#ffc233" stroke="#2b1b4d" stroke-width="4"/>
+    </svg>
+
+    <svg class="cap" viewBox="0 0 44 44" aria-hidden="true">
+      <circle cx="22" cy="22" r="19" fill="#ffc233" stroke="#2b1b4d" stroke-width="3"/>
+      <circle cx="22" cy="22" r="12" fill="#fff8ec" stroke="#2b1b4d" stroke-width="2"/>
+    </svg>
+    <div class="sticker sticker--1">grand entrance 🎬</div>
+    <div class="sticker sticker--2">crowd goes wild 🥳</div>
+  </div>
+  <div class="hero-scribble">→ applauded at 12,000+ parties and counting</div>
+</header>
+
+<!-- party moments -->
+<section class="moments" id="moments">
+  <span class="section-label">The Scene At Every Party</span>
+  <h2 class="section-title">When The Cap Flies, Everything Stops</h2>
+  <div class="moments-grid">
+    <div class="moment reveal">
+      <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <rect x="18" y="42" width="64" height="42" rx="4" fill="#ffc233" stroke="#2b1b4d" stroke-width="3.5"/>
+        <path d="M12 46 L50 16 L88 46" stroke="#2b1b4d" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="#ff5a5f"/>
+        <rect x="42" y="60" width="16" height="24" fill="#2b1b4d" rx="2"/>
+        <circle cx="30" cy="34" r="3" fill="#12b5a2"/><circle cx="70" cy="30" r="3" fill="#7c4dff"/><circle cx="58" cy="24" r="3" fill="#ff7ac1"/>
+      </svg>
+      <h3>House Party</h3>
+      <p>Music pauses, everyone pulls out their phones. One pop, one launch — instant legend status.</p>
+    </div>
+    <div class="moment reveal">
+      <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <circle cx="50" cy="50" r="30" fill="#ff5a5f" stroke="#2b1b4d" stroke-width="3.5"/>
+        <path d="M35 38 Q50 30 65 38 M32 50 Q50 42 68 50 M35 62 Q50 54 65 62" stroke="#fff8ec" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M20 22 L14 12 M80 22 L86 12 M50 16 L50 6" stroke="#2b1b4d" stroke-width="3.5" stroke-linecap="round"/>
+      </svg>
+      <h3>Match Day</h3>
+      <p>Your team hits a boundary? Launch a cap! One flight per four — full stadium energy in your living room.</p>
+    </div>
+    <div class="moment reveal">
+      <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <circle cx="50" cy="58" r="14" fill="none" stroke="#ffc233" stroke-width="6"/>
+        <circle cx="50" cy="58" r="14" fill="none" stroke="#2b1b4d" stroke-width="2" stroke-dasharray="4 5"/>
+        <path d="M42 42 L50 26 L58 42 Z" fill="#12b5a2" stroke="#2b1b4d" stroke-width="3" stroke-linejoin="round"/>
+        <circle cx="30" cy="30" r="3" fill="#ff7ac1"/><circle cx="72" cy="28" r="3" fill="#7c4dff"/><circle cx="66" cy="80" r="3" fill="#ff5a5f"/>
+      </svg>
+      <h3>Weddings</h3>
+      <p>Cousins holding a distance contest before the ceremony. A launcher gifted to the groom = best gift ever.</p>
+    </div>
+    <div class="moment reveal">
+      <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <rect x="16" y="60" width="68" height="24" rx="3" fill="#7c4dff" stroke="#2b1b4d" stroke-width="3.5"/>
+        <path d="M16 60 L26 46 L74 46 L84 60" fill="#ff7ac1" stroke="#2b1b4d" stroke-width="3.5" stroke-linejoin="round"/>
+        <circle cx="30" cy="24" r="4" fill="#ffc233" stroke="#2b1b4d" stroke-width="2"/>
+        <circle cx="50" cy="18" r="4" fill="#ffc233" stroke="#2b1b4d" stroke-width="2"/>
+        <circle cx="70" cy="26" r="4" fill="#ffc233" stroke="#2b1b4d" stroke-width="2"/>
+        <path d="M30 28 L30 40 M50 22 L50 40 M70 30 L70 40" stroke="#2b1b4d" stroke-width="2"/>
+      </svg>
+      <h3>Rooftop Nights</h3>
+      <p>Good drinks, old songs, and caps sailing toward the stars. The official sport of every rooftop party.</p>
+    </div>
+  </div>
+</section>
+
+<!-- product -->
+<section class="product" id="product">
+  <span class="section-label">One Product. The One &amp; Only Original.</span>
+  <div class="product-grid">
+    <div class="product-stage reveal">
+      <div class="badge-original">PARTY<br />HERO</div>
+      <img src="assets/product-nobg.png" alt="The Original bottle cap launcher — mounted on a bottle, with a spare launcher beside it" />
+    </div>
+    <div class="product-info reveal">
+      <h2>The Original Bottle Cap Launcher</h2>
+      <div class="rating">★★★★★ &nbsp;4.9 — 340 verified party heroes</div>
+      <p class="desc">Machined from solid metal, The Original hooks onto any crown cap, pops it clean off, and fires it up to 15 metres — one satisfying squeeze, <span class="hi">and the whole party turns to look at you.</span> No plastic, no batteries, no boring bottle openings — just one beautifully overbuilt piece of party equipment.</p>
+      <div class="price-row">
+        <span class="price">₹1,366</span>
+        <span class="price-note">only! — tracked shipping included</span>
+      </div>
+
+      <span class="opt-label">Choose Your Finish</span>
+      <div class="finishes" id="finishes" role="group" aria-label="Choose finish">
+        <button class="finish" data-finish="Midnight Black" aria-pressed="true"><span class="swatch" style="background:#222"></span>Midnight Black</button>
+        <button class="finish" data-finish="Brass" aria-pressed="false"><span class="swatch" style="background:#c99a3c"></span>Brass</button>
+        <button class="finish" data-finish="Party Pink" aria-pressed="false"><span class="swatch" style="background:#ff7ac1"></span>Party Pink</button>
+      </div>
+
+      <div class="qty-row">
+        <span class="opt-label" style="margin:0">Qty</span>
+        <div class="qty">
+          <button id="qtyMinus" aria-label="Decrease quantity">−</button>
+          <span id="qtyVal">1</span>
+          <button id="qtyPlus" aria-label="Increase quantity">+</button>
+        </div>
+      </div>
+
+      <button class="add-btn" id="addToCart">Add to Cart — ₹1,366</button>
+      <div class="trust">
+        <span>🔒 UPI / Cards / COD</span>
+        <span>🚚 Dispatched in 48 hrs</span>
+        <span>🛠 Lifetime build guarantee</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- how it works -->
+<section id="how">
+  <span class="section-label">3 Steps To Hero Status</span>
+  <h2 class="section-title">Pop. Launch. Applause.</h2>
+  <div class="steps">
+    <div class="step reveal">
+      <div class="num">01</div>
+      <h3>Hook The Cap</h3>
+      <p>Slide the launcher's jaw under any crown cap. <span class="hi">Everyone watching? Good.</span> Let the suspense build.</p>
+    </div>
+    <div class="step reveal">
+      <div class="num">02</div>
+      <h3>Squeeze</h3>
+      <p>One smooth press — POP! The spring-loaded trigger sends the cap flying clean. <span class="hi">No spilled drinks, no ruined style.</span></p>
+    </div>
+    <div class="step reveal">
+      <div class="num">03</div>
+      <h3>Take A Bow 🎬</h3>
+      <p>The cap sails 15 metres, the room goes "WHOA!", and you just casually sip your drink. <span class="hi">Hero move.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- specs -->
+<div class="specs">
+  <ul>
+    <li><span class="val">15m</span><span class="key">Max launch range</span></li>
+    <li><span class="val">100%</span><span class="key">Solid metal build</span></li>
+    <li><span class="val">0</span><span class="key">Batteries needed</span></li>
+    <li><span class="val">∞</span><span class="key">Cheers per party</span></li>
+    <li><span class="val">48h</span><span class="key">Dispatch time</span></li>
+  </ul>
+</div>
+
+<!-- reviews -->
+<section id="reviews">
+  <span class="section-label">Party Heroes Speak</span>
+  <h2 class="section-title">People Can't Stop Launching</h2>
+  <div class="reviews-grid">
+    <div class="review reveal">
+      <div class="stars">★★★★★</div>
+      <p>"Used it for the first time at a New Year party. The cap flew clean over the balcony. Biggest cheer of the entire year. Now people invite the launcher to parties before they invite me 😂"</p>
+      <div class="who">— Rohit V., Mumbai</div>
+    </div>
+    <div class="review reveal">
+      <div class="stars">★★★★★</div>
+      <p>"Gifted one to my brother at his wedding party. The groom left the stage to launch caps. Even the DJ said he'd never seen entertainment like it."</p>
+      <div class="who">— Priya M., Bengaluru</div>
+    </div>
+    <div class="review reveal">
+      <div class="stars">★★★★★</div>
+      <p>"I run a bar in Goa and keep one on the counter — customers order a second bottle just to watch the launch. There's literally a queue on weekends. Best ₹1,366 ever!"</p>
+      <div class="who">— Neha S., Goa</div>
+    </div>
+  </div>
+</section>
+
+<!-- faq -->
+<section id="faq">
+  <span class="section-label">Good Questions</span>
+  <h2 class="section-title">FAQ</h2>
+  <div class="faq">
+    <details>
+      <summary>Does it work on twist-off caps?</summary>
+      <div class="a">It's built for pry-off crown caps (the classic kind). Twist-offs will still pop and launch, they just won't fly quite as far — physics is physics, boss.</div>
+    </details>
+    <details>
+      <summary>Is it safe at a party?</summary>
+      <div class="a">The launcher itself is completely safe to handle. Flying caps, however, obey no one — never aim at faces, pets, or the DJ's setup. Recommended for ages 14+. Be the hero, not the villain.</div>
+    </details>
+    <details>
+      <summary>How long does shipping take?</summary>
+      <div class="a">We dispatch within 48 hours. Delivery takes 3–6 business days across India, with tracking sent to your email. Cash on delivery available. Ordering for a weekend party? Order by Tuesday to be safe.</div>
+    </details>
+    <details>
+      <summary>What if it breaks?</summary>
+      <div class="a">It's solid metal — good luck breaking it! But if you ever manage it, our lifetime build guarantee means we repair or replace it free. That's a promise.</div>
+    </details>
+  </div>
+</section>
+
+<!-- dancing crowd strip -->
+<div class="crowd-strip" aria-hidden="true">
+  <svg viewBox="0 0 1100 80" fill="none">
+    <defs>
+      <g id="dancer1">
+        <circle cx="20" cy="14" r="9" fill="#2b1b4d"/>
+        <path d="M20 24 L20 48 M20 30 L6 20 M20 30 L34 18 M20 48 L10 70 M20 48 L30 70" stroke="#2b1b4d" stroke-width="6" stroke-linecap="round"/>
+      </g>
+      <g id="dancer2">
+        <circle cx="20" cy="16" r="9" fill="#2b1b4d"/>
+        <path d="M20 26 L20 50 M20 32 L4 40 M20 32 L36 24 M20 50 L8 68 M20 50 L32 70" stroke="#2b1b4d" stroke-width="6" stroke-linecap="round"/>
+      </g>
+      <g id="dancer3">
+        <circle cx="20" cy="12" r="9" fill="#2b1b4d"/>
+        <path d="M20 22 L20 46 M20 28 L4 14 M20 28 L36 14 M20 46 L12 70 M20 46 L28 70" stroke="#2b1b4d" stroke-width="6" stroke-linecap="round"/>
+      </g>
+    </defs>
+    <g class="dancer"><use href="#dancer1" x="20"/></g>
+    <g class="dancer"><use href="#dancer2" x="130"/></g>
+    <g class="dancer"><use href="#dancer3" x="240"/></g>
+    <g class="dancer"><use href="#dancer1" x="350"/></g>
+    <g class="dancer"><use href="#dancer2" x="460"/></g>
+    <g class="dancer"><use href="#dancer3" x="570"/></g>
+    <g class="dancer"><use href="#dancer1" x="680"/></g>
+    <g class="dancer"><use href="#dancer2" x="790"/></g>
+    <g class="dancer"><use href="#dancer3" x="900"/></g>
+    <g class="dancer"><use href="#dancer1" x="1010"/></g>
+  </svg>
+</div>
+
+<!-- footer -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">TRI <span>HUG</span></div>
+        <p style="opacity:.65;max-width:28ch;font-size:.92rem;margin-top:.6rem">One product. The hero of every party. Launched daily.</p>
+      </div>
+      <ul>
+        <li><strong style="opacity:1">Shop</strong></li>
+        <li><a href="#product">The Original Launcher</a></li>
+        <li><a href="#moments">Party Moves</a></li>
+      </ul>
+      <ul>
+        <li><strong style="opacity:1">Help</strong></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="mailto:hello@trihug.shop">hello@trihug.shop</a></li>
+      </ul>
+      <ul>
+        <li><strong style="opacity:1">Legal</strong></li>
+        <li><a href="#">Shipping &amp; Returns</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-note">© 2026 Tri Hug · Made with ❤ in India · <span class="hi">Please don't aim at faces. Or the DJ's speakers.</span></div>
+</footer>
+
+<!-- cart drawer -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart">
+  <div class="cart-head">
+    <h3>The Hero's Cart</h3>
+    <button class="cart-close" id="closeCart" aria-label="Close cart">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot">
+    <div class="cart-total"><span>Total</span><span id="cartTotal">₹0</span></div>
+    <button class="checkout-btn" id="checkoutBtn">Checkout 🎉</button>
+  </div>
+</aside>
+
+<div class="toast" id="toast">Added to cart!</div>
+
+<script>
+(function(){
+  const PRICE = 1366;
+  const fmt = n => '₹' + n.toLocaleString('en-IN');
+
+  /* ---- state ---- */
+  let cart = [];
+  try { cart = JSON.parse(localStorage.getItem('trihug-cart')) || []; } catch(e){ cart = []; }
+  let qty = 1;
+  let finish = 'Midnight Black';
+
+  const $ = id => document.getElementById(id);
+
+  /* ---- finish selection ---- */
+  document.querySelectorAll('.finish').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.finish').forEach(b => b.setAttribute('aria-pressed','false'));
+      btn.setAttribute('aria-pressed','true');
+      finish = btn.dataset.finish;
+    });
+  });
+
+  /* ---- qty ---- */
+  $('qtyPlus').addEventListener('click', () => { qty = Math.min(qty+1, 10); render(); });
+  $('qtyMinus').addEventListener('click', () => { qty = Math.max(qty-1, 1); render(); });
+
+  /* ---- cart ops ---- */
+  function save(){ localStorage.setItem('trihug-cart', JSON.stringify(cart)); }
+
+  function addToCart(){
+    const existing = cart.find(i => i.finish === finish);
+    if (existing) existing.qty = Math.min(existing.qty + qty, 10);
+    else cart.push({ finish, qty });
+    save(); render(); toast('Added to cart! Hero incoming 🎉'); openCart();
+  }
+
+  function changeItemQty(idx, delta){
+    cart[idx].qty += delta;
+    if (cart[idx].qty <= 0) cart.splice(idx, 1);
+    save(); render();
+  }
+
+  function removeItem(idx){ cart.splice(idx, 1); save(); render(); }
+
+  /* ---- render ---- */
+  const capThumb = '<img src="assets/product-nobg.png" alt="" />';
+
+  function render(){
+    $('qtyVal').textContent = qty;
+    $('addToCart').textContent = 'Add to Cart — ' + fmt(PRICE * qty);
+
+    const count = cart.reduce((s,i) => s + i.qty, 0);
+    $('cartCount').textContent = count;
+
+    const box = $('cartItems');
+    if (!cart.length){
+      box.innerHTML = '<div class="cart-empty">Nothing here yet…<br/>ready to be the hero? 🎉</div>';
+    } else {
+      box.innerHTML = cart.map((item, idx) => `
+        <div class="cart-item">
+          <div class="thumb">${capThumb}</div>
+          <div class="ci-info">
+            <div class="name">The Original — ${item.finish}</div>
+            <div class="meta">Bottle Cap Launcher</div>
+            <div class="ci-controls">
+              <button data-act="minus" data-idx="${idx}" aria-label="Decrease">−</button>
+              <span>${item.qty}</span>
+              <button data-act="plus" data-idx="${idx}" aria-label="Increase">+</button>
+              <button class="ci-remove" data-act="remove" data-idx="${idx}">Remove</button>
+            </div>
+          </div>
+          <div style="font-weight:800">${fmt(PRICE * item.qty)}</div>
+        </div>`).join('');
+    }
+    $('cartTotal').textContent = fmt(cart.reduce((s,i) => s + i.qty * PRICE, 0));
+  }
+
+  $('cartItems').addEventListener('click', e => {
+    const btn = e.target.closest('button[data-act]');
+    if (!btn) return;
+    const idx = +btn.dataset.idx;
+    if (btn.dataset.act === 'plus') changeItemQty(idx, 1);
+    else if (btn.dataset.act === 'minus') changeItemQty(idx, -1);
+    else removeItem(idx);
+  });
+
+  /* ---- drawer ---- */
+  function openCart(){ $('cartDrawer').classList.add('open'); $('cartOverlay').classList.add('open'); }
+  function closeCart(){ $('cartDrawer').classList.remove('open'); $('cartOverlay').classList.remove('open'); }
+  $('openCart').addEventListener('click', openCart);
+  $('closeCart').addEventListener('click', closeCart);
+  $('cartOverlay').addEventListener('click', closeCart);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCart(); });
+
+  $('addToCart').addEventListener('click', addToCart);
+
+  $('checkoutBtn').addEventListener('click', () => {
+    if (!cart.length){ toast('Your cart is empty, boss!'); return; }
+    toast('Demo store — checkout coming soon! 🚀');
+  });
+
+  /* ---- toast ---- */
+  let toastTimer;
+  function toast(msg){
+    const t = $('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+  }
+
+  /* ---- scroll reveal ---- */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { threshold: .15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  render();
+})();
+</script>
+</body>
+</html>
