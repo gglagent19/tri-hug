@@ -254,6 +254,29 @@ section{padding:clamp(3rem,7vw,6rem) clamp(1rem,4vw,3rem);position:relative;z-in
 .add-btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
 .trust{display:flex;gap:1.4rem;margin-top:1.4rem;font-size:.85rem;opacity:.92;flex-wrap:wrap;font-weight:600}
 
+/* ---------- see it in action ---------- */
+.action{background:var(--paper-2);border-top:var(--border);border-bottom:var(--border)}
+.action-grid{display:grid;grid-template-columns:auto 1fr;gap:clamp(2rem,6vw,5rem);align-items:center;justify-content:center}
+.phone-frame{
+  width:min(300px,80vw);aspect-ratio:9/16;border-radius:28px;overflow:hidden;
+  border:var(--border);box-shadow:var(--shadow);background:#111;
+  transform:rotate(-2deg);justify-self:center;
+}
+.phone-frame video{width:100%;height:100%;object-fit:cover;display:block}
+.action-side{max-width:480px}
+.action-side p{font-weight:600;margin:1rem 0 1.5rem;max-width:38ch}
+.action-side .hi{font-family:var(--font-hand);color:var(--coral)}
+.bottle-scene{width:min(340px,70vw)}
+.bottle-scene #cartoonBottle,.bottle-scene #rollCap{transform-box:fill-box;transform-origin:center;will-change:transform}
+
+/* ---------- rolling scroll cap ---------- */
+.scroll-cap{
+  position:fixed;bottom:2px;left:0;width:40px;height:40px;z-index:80;
+  pointer-events:none;will-change:transform;
+  filter:drop-shadow(0 3px 2px rgba(43,27,77,.3));
+}
+@media (prefers-reduced-motion:reduce){.scroll-cap{display:none}}
+
 /* ---------- how it works ---------- */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem}
 .step{
@@ -454,6 +477,7 @@ footer li a:hover{color:var(--sun);opacity:1}
   </a>
   <ul class="nav-links">
     <li><a href="#product">The Launcher</a></li>
+    <li><a href="#action">Watch</a></li>
     <li><a href="#moments">Party Moves</a></li>
     <li><a href="#reviews">Reviews</a></li>
     <li><a href="#faq">FAQ</a></li>
@@ -632,6 +656,49 @@ footer li a:hover{color:var(--sun);opacity:1}
   </div>
 </section>
 
+<!-- see it in action -->
+<section class="action" id="action">
+  <span class="section-label">Caught On Camera</span>
+  <h2 class="section-title">See It In Action</h2>
+  <div class="action-grid">
+    <div class="phone-frame reveal">
+      <video src="assets/action.mp4" playsinline muted loop autoplay controls preload="metadata" aria-label="Demo video of the bottle cap launcher popping caps"></video>
+    </div>
+    <div class="action-side reveal">
+      <svg class="bottle-scene" viewBox="0 0 340 260" fill="none" aria-hidden="true">
+        <!-- ground -->
+        <path d="M14 228 Q170 218 326 228" stroke="#2b1b4d" stroke-width="4" stroke-linecap="round"/>
+        <!-- cartoon bottle -->
+        <g id="cartoonBottle">
+          <path d="M120 60 L120 96 Q92 118 92 150 L92 208 Q92 222 106 222 L162 222 Q176 222 176 208 L176 150 Q176 118 148 96 L148 60 Z" fill="#e8912d" stroke="#2b1b4d" stroke-width="5" stroke-linejoin="round"/>
+          <rect x="112" y="34" width="44" height="30" rx="8" fill="#2b1b4d"/>
+          <rect x="104" y="26" width="60" height="16" rx="8" fill="#2b1b4d"/>
+          <path d="M164 30 L188 12" stroke="#2b1b4d" stroke-width="9" stroke-linecap="round"/>
+          <rect x="100" y="146" width="68" height="52" rx="10" fill="#fff8ec" stroke="#2b1b4d" stroke-width="4"/>
+          <text x="134" y="168" text-anchor="middle" font-family="Titan One, cursive" font-size="15" fill="#ff5a5f">TRI</text>
+          <text x="134" y="188" text-anchor="middle" font-family="Titan One, cursive" font-size="15" fill="#12b5a2">HUG</text>
+          <circle cx="118" cy="126" r="3.5" fill="#2b1b4d"/>
+          <circle cx="150" cy="126" r="3.5" fill="#2b1b4d"/>
+          <path d="M124 136 Q134 144 144 136" stroke="#2b1b4d" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          <path d="M104 106 Q100 116 100 126" stroke="#fff8ec" stroke-width="4" stroke-linecap="round" opacity=".7"/>
+        </g>
+        <!-- rolling cap -->
+        <g id="rollCap">
+          <circle cx="230" cy="208" r="17" fill="#ffc233" stroke="#2b1b4d" stroke-width="4"/>
+          <circle cx="230" cy="208" r="9" fill="#fff8ec" stroke="#2b1b4d" stroke-width="2.5"/>
+          <path d="M230 199 L230 202 M230 214 L230 217 M221 208 L224 208 M236 208 L239 208" stroke="#2b1b4d" stroke-width="2"/>
+        </g>
+        <!-- motion lines -->
+        <path d="M196 196 L206 192 M194 206 L204 204" stroke="#ff5a5f" stroke-width="3" stroke-linecap="round"/>
+        <!-- confetti bits -->
+        <circle cx="60" cy="60" r="4" fill="#ff7ac1"/><circle cx="280" cy="48" r="4" fill="#12b5a2"/><rect x="250" y="120" width="8" height="8" rx="2" fill="#7c4dff" transform="rotate(20 254 124)"/>
+      </svg>
+      <p>Real launcher. Real bottle. Real reactions. <span class="hi">Watch the cap fly</span> — then scroll down and watch our little cap roll along with you. 👇</p>
+      <a href="#product" class="btn-primary">Get Yours — ₹499</a>
+    </div>
+  </div>
+</section>
+
 <!-- how it works -->
 <section id="how">
   <span class="section-label">3 Steps To Hero Status</span>
@@ -786,6 +853,15 @@ footer li a:hover{color:var(--sun);opacity:1}
   </div>
 </aside>
 
+<!-- rolling scroll cap -->
+<div class="scroll-cap" id="scrollCap" aria-hidden="true">
+  <svg viewBox="0 0 40 40" fill="none">
+    <circle cx="20" cy="20" r="17" fill="#ffc233" stroke="#2b1b4d" stroke-width="3.5"/>
+    <circle cx="20" cy="20" r="9" fill="#fff8ec" stroke="#2b1b4d" stroke-width="2.5"/>
+    <path d="M20 6 L20 10 M20 30 L20 34 M6 20 L10 20 M30 20 L34 20" stroke="#2b1b4d" stroke-width="2.5"/>
+  </svg>
+</div>
+
 <div class="toast" id="toast">Added to cart!</div>
 
 <script>
@@ -912,6 +988,38 @@ footer li a:hover{color:var(--sun);opacity:1}
     t.classList.add('show');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+  }
+
+  /* ---- rolling cap on scroll ---- */
+  const scrollCap = $('scrollCap');
+  const cartoonBottle = document.getElementById('cartoonBottle');
+  const rollCap = document.getElementById('rollCap');
+  const CAP_SIZE = 40;
+  let scrollTick = false;
+  function onScrollRoll(){
+    if (scrollTick) return;
+    scrollTick = true;
+    requestAnimationFrame(() => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const p = max > 0 ? Math.min(Math.max(window.scrollY / max, 0), 1) : 0;
+      // fixed cap rolls across the bottom of the screen; rotation matches distance travelled
+      const x = p * (window.innerWidth - CAP_SIZE);
+      const deg = (x / (Math.PI * (CAP_SIZE - 6))) * 360;
+      scrollCap.style.transform = 'translateX(' + x + 'px) rotate(' + deg + 'deg)';
+      // cartoon scene: bottle rocks gently, its cap rolls away as you scroll
+      if (cartoonBottle) cartoonBottle.style.transform = 'rotate(' + (Math.sin(p * Math.PI * 3) * 5) + 'deg)';
+      if (rollCap){
+        const rx = p * 92;
+        rollCap.style.transform = 'translateX(' + rx + 'px) rotate(' + (rx / (Math.PI * 17)) * 360 + 'deg)';
+      }
+      scrollTick = false;
+    });
+  }
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion){
+    window.addEventListener('scroll', onScrollRoll, { passive: true });
+    window.addEventListener('resize', onScrollRoll, { passive: true });
+    onScrollRoll();
   }
 
   /* ---- scroll reveal ---- */
