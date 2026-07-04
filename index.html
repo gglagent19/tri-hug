@@ -995,25 +995,19 @@ footer li a:hover{color:var(--sun);opacity:1}
   const cartoonBottle = document.getElementById('cartoonBottle');
   const rollCap = document.getElementById('rollCap');
   const CAP_SIZE = 40;
-  let scrollTick = false;
   function onScrollRoll(){
-    if (scrollTick) return;
-    scrollTick = true;
-    requestAnimationFrame(() => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const p = max > 0 ? Math.min(Math.max(window.scrollY / max, 0), 1) : 0;
-      // fixed cap rolls across the bottom of the screen; rotation matches distance travelled
-      const x = p * (window.innerWidth - CAP_SIZE);
-      const deg = (x / (Math.PI * (CAP_SIZE - 6))) * 360;
-      scrollCap.style.transform = 'translateX(' + x + 'px) rotate(' + deg + 'deg)';
-      // cartoon scene: bottle rocks gently, its cap rolls away as you scroll
-      if (cartoonBottle) cartoonBottle.style.transform = 'rotate(' + (Math.sin(p * Math.PI * 3) * 5) + 'deg)';
-      if (rollCap){
-        const rx = p * 92;
-        rollCap.style.transform = 'translateX(' + rx + 'px) rotate(' + (rx / (Math.PI * 17)) * 360 + 'deg)';
-      }
-      scrollTick = false;
-    });
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const p = max > 0 ? Math.min(Math.max(window.scrollY / max, 0), 1) : 0;
+    // fixed cap rolls across the bottom of the screen; rotation matches distance travelled
+    const x = p * (window.innerWidth - CAP_SIZE);
+    const deg = (x / (Math.PI * (CAP_SIZE - 6))) * 360;
+    scrollCap.style.transform = 'translateX(' + x + 'px) rotate(' + deg + 'deg)';
+    // cartoon scene: bottle rocks gently, its cap rolls away as you scroll
+    if (cartoonBottle) cartoonBottle.style.transform = 'rotate(' + (Math.sin(p * Math.PI * 3) * 5) + 'deg)';
+    if (rollCap){
+      const rx = p * 92;
+      rollCap.style.transform = 'translateX(' + rx + 'px) rotate(' + (rx / (Math.PI * 17)) * 360 + 'deg)';
+    }
   }
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!reduceMotion){
