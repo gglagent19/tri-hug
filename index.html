@@ -368,6 +368,7 @@ footer li a:hover{color:var(--sun);opacity:1}
   transition:transform .15s,box-shadow .15s;
 }
 .checkout-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.pay-note{font-size:.78rem;opacity:.65;text-align:center;margin-top:.7rem;font-weight:600}
 
 /* ---------- toast ---------- */
 .toast{
@@ -780,7 +781,8 @@ footer li a:hover{color:var(--sun);opacity:1}
   <div class="cart-items" id="cartItems"></div>
   <div class="cart-foot">
     <div class="cart-total"><span>Total</span><span id="cartTotal">₹0</span></div>
-    <button class="checkout-btn" id="checkoutBtn">Checkout 🎉</button>
+    <button class="checkout-btn" id="checkoutBtn">Pay with PayU 🎉</button>
+    <p class="pay-note">Secure payment via PayU — UPI, cards &amp; netbanking. Enter your total amount on the payment page.</p>
   </div>
 </aside>
 
@@ -882,10 +884,25 @@ footer li a:hover{color:var(--sun);opacity:1}
 
   $('addToCart').addEventListener('click', addToCart);
 
+  const PAYU_LINK = 'https://u.payu.in/irGpXbeK5qQ0';
+
   $('checkoutBtn').addEventListener('click', () => {
     if (!cart.length){ toast('Your cart is empty, boss!'); return; }
-    toast('Demo store — checkout coming soon! 🚀');
+    const total = cart.reduce((s,i) => s + i.qty * PRICE, 0);
+    toast('Enter ' + fmt(total) + ' on the PayU page 💳');
+    setTimeout(() => { window.open(PAYU_LINK, '_blank', 'noopener'); }, 900);
   });
+
+  /* ---- payment return handling ---- */
+  const payStatus = new URLSearchParams(window.location.search).get('payment');
+  if (payStatus === 'success'){
+    cart = []; save();
+    setTimeout(() => toast('Payment received! Your launcher is on its way 🎉'), 600);
+    history.replaceState(null, '', window.location.pathname);
+  } else if (payStatus === 'cancelled' || payStatus === 'failed'){
+    setTimeout(() => toast(payStatus === 'failed' ? 'Payment failed — please try again.' : 'Payment cancelled — your cart is saved.'), 600);
+    history.replaceState(null, '', window.location.pathname);
+  }
 
   /* ---- toast ---- */
   let toastTimer;
